@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://c4jk7dvqhjn75"]
+
+[ext_resource type="Script" path="res://car.gd" id="1_rxlnc"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kcubh"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_gc6um"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_x8tor"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_dsqxs"]
+size = Vector2(20, 20)
+orientation = 1
+
+[node name="Root" type="Node3D"]
+
+[node name="Car" type="CharacterBody3D" parent="."]
+script = ExtResource("1_rxlnc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Car"]
+shape = SubResource("BoxShape3D_kcubh")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Car"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25266, 0)
+mesh = SubResource("BoxMesh_gc6um")
+
+[node name="Floor" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("WorldBoundaryShape3D_x8tor")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("QuadMesh_dsqxs")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.939052, 0.343774, 0, -0.343774, 0.939052, 0, 3.85583, 5.30509)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.681947, 0.449803, -0.576737, 0, 0.788537, 0.614987, 0.731402, -0.419389, 0.537741, 0, 4.74978, 0)
