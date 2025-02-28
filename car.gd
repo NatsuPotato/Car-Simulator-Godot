@@ -1,9 +1,14 @@
 extends RigidBody3D
 
-const TURN_SPEED : float = 0.3
-const MAX_SPEED : float = 12.0
+const TURN_SPEED : float = 0.13
+const MAX_SPEED : float = 20.0
 const FORWARD_TRACTION : float = 10
 const SIDE_TRACTION : float = 8
+
+# TODO
+# change to force system (rigidbodies prefer using forces over directly modifying velocities)
+# visible wheel turning
+# turning system (dependent on move speed) is pretty bad
 
 # As good practice, you should replace UI actions with custom gameplay actions.
 # Input.is_action_just_pressed("ui_accept")
@@ -14,7 +19,7 @@ func _physics_process(delta: float) -> void:
 	
 	# check if grounded
 	var space_state := get_world_3d().direct_space_state
-	var query := PhysicsRayQueryParameters3D.create(position, position + Vector3(0, -0.5, 0))
+	var query := PhysicsRayQueryParameters3D.create(position + Vector3(0, 0.1, 0), position + Vector3(0, -0.5, 0))
 	var result := space_state.intersect_ray(query)
 	
 	if (not result.is_empty()):
@@ -43,7 +48,7 @@ func _physics_process(delta: float) -> void:
 		linear_velocity.z = translational_velocity.z
 		
 		# when you turn, the car turns at a rate proportional to the magnitude of the move vector
-		rotation.y -= input_dir.x * linear_velocity.length() * TURN_SPEED * delta
+		rotation.y += input_dir.x * forward_wheel_velocity * TURN_SPEED * delta
 	
 
 
