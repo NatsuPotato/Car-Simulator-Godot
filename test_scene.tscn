@@ -1,6 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://c4jk7dvqhjn75"]
+[gd_scene load_steps=9 format=3 uid="uid://c4jk7dvqhjn75"]
 
 [ext_resource type="Script" path="res://car.gd" id="1_rxlnc"]
+[ext_resource type="Texture2D" uid="uid://bb0k54qs6qmld" path="res://racetrack.jpg" id="2_phudw"]
+[ext_resource type="Script" path="res://camera_mount.gd" id="3_p2ulv"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_kcubh"]
 
@@ -9,19 +11,23 @@
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_x8tor"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_dsqxs"]
-size = Vector2(20, 20)
+size = Vector2(100, 100)
 orientation = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kv3p5"]
+albedo_texture = ExtResource("2_phudw")
 
 [node name="Root" type="Node3D"]
 
 [node name="Car" type="CharacterBody3D" parent="."]
+slide_on_ceiling = false
 script = ExtResource("1_rxlnc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Car"]
 shape = SubResource("BoxShape3D_kcubh")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Car"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25266, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.521584, 0)
 mesh = SubResource("BoxMesh_gc6um")
 
 [node name="Floor" type="StaticBody3D" parent="."]
@@ -31,9 +37,14 @@ shape = SubResource("WorldBoundaryShape3D_x8tor")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
 mesh = SubResource("QuadMesh_dsqxs")
+surface_material_override/0 = SubResource("StandardMaterial3D_kv3p5")
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.939052, 0.343774, 0, -0.343774, 0.939052, 0, 3.85583, 5.30509)
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="Sun" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.681947, 0.449803, -0.576737, 0, 0.788537, 0.614987, 0.731402, -0.419389, 0.537741, 0, 4.74978, 0)
+
+[node name="CameraMount" type="Node3D" parent="."]
+script = ExtResource("3_p2ulv")
+metadata/target = NodePath("../Car")
+
+[node name="Camera3D" type="Camera3D" parent="CameraMount"]
+transform = Transform3D(1, 0, 0, 0, 0.939052, 0.343774, 0, -0.343774, 0.939052, 0, 3.85583, 5.30509)

@@ -1,23 +1,32 @@
 extends CharacterBody3D
 
-const TURN_SPEED = 0.12
-const SPEED = 8.0
-const SLIPPERINESS = 0.01
+const TURN_SPEED = 0.08
+const MAX_SPEED = 20.0
+const TRACTION = 0.3 # traction affects acceleration and drift
 
-# a car has a global 2D move vector.
-# when you accelerate, you add the forward vector * acceleration to the move vector.
-# when you turn, the car turns at a rate proportional to the magnitude of the move vector.
-# the drag on the move vector is proportional to the dot product between the forward vector and the move vector.
-
+# should probably remember to use delta in calculations
 func _physics_process(delta: float) -> void:
 	
 	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	
-	rotation.y -= input_dir.x * velocity.length() * TURN_SPEED / SPEED
+	# when you turn, the car turns at a rate proportional to the magnitude of the move vector
+	rotation.y -= input_dir.x * velocity.length() * TURN_SPEED / MAX_SPEED
 	
-	velocity = lerp(velocity, Vector3(0, 0, input_dir.y).rotated(up_direction, rotation.y) * SPEED, SLIPPERINESS)
+	# when you accelerate, you add the forward vector * acceleration to the move vector
+	velocity += Vector3(0, 0, input_dir.y).rotated(up_direction, rotation.y) * TRACTION
+	
+	# cap the speed
+	if (velocity.length() > MAX_SPEED):
+		velocity = velocity.normalized() * MAX_SPEED
+	
+	# the drag on the move vector is proportional to the dot product between the forward vector and the move vector
+	# unimplemented
 	
 	move_and_slide()
+	
+	
+	
+	
 	
 	## Add the gravity.
 	#if not is_on_floor():
