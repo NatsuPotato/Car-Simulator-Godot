@@ -1,11 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://c4jk7dvqhjn75"]
+[gd_scene load_steps=12 format=3 uid="uid://c4jk7dvqhjn75"]
 
 [ext_resource type="Script" path="res://car.gd" id="1_rxlnc"]
 [ext_resource type="PackedScene" uid="uid://ddj58txgssjpp" path="res://PickUpTruck.blend" id="2_aw3iy"]
 [ext_resource type="Texture2D" uid="uid://bb0k54qs6qmld" path="res://racetrack.jpg" id="2_phudw"]
 [ext_resource type="Script" path="res://camera_mount.gd" id="3_p2ulv"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_kcubh"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_x8tor"]
 
@@ -16,18 +14,19 @@ orientation = 1
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kv3p5"]
 albedo_texture = ExtResource("2_phudw")
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_x5c3p"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_ak4ec"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_p4bpo"]
+friction = 0.0
+bounce = 0.1
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_8j8kv"]
+height = 1.0
+radius = 0.35
+
 [node name="Root" type="Node3D"]
-
-[node name="Car" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.04813, 0)
-slide_on_ceiling = false
-script = ExtResource("1_rxlnc")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Car"]
-shape = SubResource("BoxShape3D_kcubh")
-
-[node name="PickUpTruck" parent="Car" instance=ExtResource("2_aw3iy")]
-transform = Transform3D(-8.74228e-09, 0, -0.2, 0, 0.2, 0, 0.2, 0, -8.74228e-09, 0, -0.045838, 0)
 
 [node name="Floor" type="StaticBody3D" parent="."]
 
@@ -47,3 +46,28 @@ metadata/target = NodePath("../Car")
 
 [node name="Camera3D" type="Camera3D" parent="CameraMount"]
 transform = Transform3D(1, 0, 0, 0, 0.939052, 0.343774, 0, -0.343774, 0.939052, 0, 3.85583, 5.30509)
+
+[node name="Ramp" type="StaticBody3D" parent="."]
+transform = Transform3D(5, 0, 0, 0, 4.82963, -1.29409, 0, 1.29409, 4.82963, 0, -1.77542, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ramp"]
+shape = SubResource("BoxShape3D_x5c3p")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ramp"]
+mesh = SubResource("BoxMesh_ak4ec")
+
+[node name="Car" type="RigidBody3D" parent="."]
+transform = Transform3D(1, -2.2238e-05, -2.2126e-05, 2.2238e-05, 1, 0.000136057, 2.2126e-05, -0.000136057, 1, 0, 5, 0)
+physics_material_override = SubResource("PhysicsMaterial_p4bpo")
+script = ExtResource("1_rxlnc")
+
+[node name="PickUpTruck" parent="Car" instance=ExtResource("2_aw3iy")]
+transform = Transform3D(-8.74228e-09, 0, -0.2, 0, 0.2, 0, 0.2, 0, -8.74228e-09, 0, 0, 0)
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Car"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, -0.5)
+shape = SubResource("CylinderShape3D_8j8kv")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="Car"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0.3)
+shape = SubResource("CylinderShape3D_8j8kv")

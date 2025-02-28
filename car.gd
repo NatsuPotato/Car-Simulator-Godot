@@ -1,46 +1,37 @@
-extends CharacterBody3D
+extends RigidBody3D
 
 const TURN_SPEED = 0.3
 const MAX_SPEED = 12.0
 const FORWARD_TRACTION = 10
 const SIDE_TRACTION = 8
 
-# as soon as you go into the air it switches to using pure vec3
-
 # should probably remember to use delta in calculations
 func _physics_process(delta: float) -> void:
+		
+	var local_velocity = linear_velocity * transform.basis.get_rotation_quaternion()
 	
-	if is_on_floor():
-		
-		var local_velocity = velocity * transform.basis.get_rotation_quaternion()
-		
-		var forward_wheel_velocity = local_velocity.z
-		var side_wheel_velocity = local_velocity.x
-		
-		var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-		
-		# wheel coercion: when grounded, side wheel velocity fizzles out to make us go straight
-		side_wheel_velocity = move_toward(side_wheel_velocity, 0, delta * SIDE_TRACTION)
-		
-		# wheel propulsion: when grounded and throttling, the car's velocity will increase in the forward direction
-		forward_wheel_velocity = move_toward(forward_wheel_velocity, input_dir.y * MAX_SPEED, delta * FORWARD_TRACTION)
-		
-		if (forward_wheel_velocity > MAX_SPEED):
-			forward_wheel_velocity = MAX_SPEED
-		
-		# apply velocity
-		var translational_velocity = Vector3(side_wheel_velocity, 0, forward_wheel_velocity) * transform.basis.get_rotation_quaternion().inverse()
-		
-		velocity.x = translational_velocity.x
-		velocity.z = translational_velocity.z
-		
-		# when you turn, the car turns at a rate proportional to the magnitude of the move vector
-		rotation.y -= input_dir.x * velocity.length() * TURN_SPEED * delta
-		
-	else:
-		velocity += get_gravity() * delta
+	var forward_wheel_velocity = local_velocity.z
+	var side_wheel_velocity = local_velocity.x
 	
-	move_and_slide()
+	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	
+	# wheel coercion: when grounded, side wheel velocity fizzles out to make us go straight
+	side_wheel_velocity = move_toward(side_wheel_velocity, 0, delta * SIDE_TRACTION)
+	
+	# wheel propulsion: when grounded and throttling, the car's velocity will increase in the forward direction
+	forward_wheel_velocity = move_toward(forward_wheel_velocity, input_dir.y * MAX_SPEED, delta * FORWARD_TRACTION)
+	
+	if (forward_wheel_velocity > MAX_SPEED):
+		forward_wheel_velocity = MAX_SPEED
+	
+	# apply velocity
+	var translational_velocity = Vector3(side_wheel_velocity, 0, forward_wheel_velocity) * transform.basis.get_rotation_quaternion().inverse()
+	
+	linear_velocity.x = translational_velocity.x
+	linear_velocity.z = translational_velocity.z
+	
+	# when you turn, the car turns at a rate proportional to the magnitude of the move vector
+	rotation.y -= input_dir.x * linear_velocity.length() * TURN_SPEED * delta
 	
 	
 	
@@ -63,3 +54,20 @@ func _physics_process(delta: float) -> void:
 		#velocity.z = move_toward(velocity.z, 0, SPEED)
 #
 	#move_and_slide()
+
+
+
+
+
+
+#func _physics_process(delta: float) -> void:
+	#
+	#var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	#
+	## wheel coercion: when grounded, side wheel velocity fizzles out to make us go straight
+	#
+	## wheel propulsion: when grounded and throttling, the car's velocity will increase in the forward direction
+	#apply_central_force(Vector3(0, 0, input_dir.y * 10) * transform.basis.get_rotation_quaternion().inverse())
+	#
+	## when you turn, the car turns at a rate proportional to the magnitude of the move vector
+	#rotation.y -= input_dir.x * linear_velocity.length() * TURN_SPEED * delta
