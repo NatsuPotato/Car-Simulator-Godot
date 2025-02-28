@@ -1,6 +1,6 @@
 extends Node3D
 
-const FOLLOW_SPEED = 2
+const FOLLOW_SPEED = 4
 
 var target
 

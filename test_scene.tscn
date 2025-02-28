@@ -1,12 +1,11 @@
 [gd_scene load_steps=9 format=3 uid="uid://c4jk7dvqhjn75"]
 
 [ext_resource type="Script" path="res://car.gd" id="1_rxlnc"]
+[ext_resource type="PackedScene" uid="uid://ddj58txgssjpp" path="res://PickUpTruck.blend" id="2_aw3iy"]
 [ext_resource type="Texture2D" uid="uid://bb0k54qs6qmld" path="res://racetrack.jpg" id="2_phudw"]
 [ext_resource type="Script" path="res://camera_mount.gd" id="3_p2ulv"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_kcubh"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_gc6um"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_x8tor"]
 
@@ -20,15 +19,15 @@ albedo_texture = ExtResource("2_phudw")
 [node name="Root" type="Node3D"]
 
 [node name="Car" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.04813, 0)
 slide_on_ceiling = false
 script = ExtResource("1_rxlnc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Car"]
 shape = SubResource("BoxShape3D_kcubh")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Car"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.521584, 0)
-mesh = SubResource("BoxMesh_gc6um")
+[node name="PickUpTruck" parent="Car" instance=ExtResource("2_aw3iy")]
+transform = Transform3D(-8.74228e-09, 0, -0.2, 0, 0.2, 0, 0.2, 0, -8.74228e-09, 0, -0.045838, 0)
 
 [node name="Floor" type="StaticBody3D" parent="."]
 
