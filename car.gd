@@ -1,5 +1,9 @@
 extends RigidBody3D
 
+# As good practice, you should replace UI actions with custom gameplay actions.
+# Input.is_action_just_pressed("ui_accept")
+# move_toward(a, b, lerp)
+
 const TURN_SPEED : float = 0.13
 const MAX_SPEED : float = 10.0
 const FORWARD_TRACTION : float = 6
@@ -13,11 +17,6 @@ func _ready() -> void:
 	grounded_vector_start = grounded_vectors[0]
 	grounded_vector_end = grounded_vectors[1]
 
-# As good practice, you should replace UI actions with custom gameplay actions.
-# Input.is_action_just_pressed("ui_accept")
-# move_toward(a, b, lerp)
-# should probably remember to use delta in calculations
-# also rigidbodies prefer using forces over directly modifying velocities
 func _physics_process(delta: float) -> void:
 	
 	var basis_rotation := transform.basis.get_rotation_quaternion()
@@ -49,5 +48,6 @@ func _physics_process(delta: float) -> void:
 		# 2) how fast you're already going forward
 		apply_central_force(Vector3(0, 0, input_dir.y * FORWARD_TRACTION * (1 - abs(forward_wheel_velocity) / MAX_SPEED)) * basis_rotation.inverse())
 		
+		# TODO should use a rotational force
 		# when you turn, the car turns at a rate proportional to the magnitude of the move vector
 		rotation.y += input_dir.x * forward_wheel_velocity * TURN_SPEED * delta
