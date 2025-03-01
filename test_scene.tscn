@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://c4jk7dvqhjn75"]
+[gd_scene load_steps=16 format=3 uid="uid://c4jk7dvqhjn75"]
 
 [ext_resource type="Script" path="res://car.gd" id="1_rxlnc"]
 [ext_resource type="Texture2D" uid="uid://bb0k54qs6qmld" path="res://racetrack.jpg" id="2_phudw"]
@@ -27,6 +27,25 @@ height = 1.4
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5yrs1"]
 size = Vector3(1.49829, 2.09613, 3.78711)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_l30kv"]
+sky_top_color = Color(0, 0.42389, 0.89264, 1)
+sky_horizon_color = Color(0.553906, 0.751087, 1, 1)
+sky_curve = 0.139955
+ground_bottom_color = Color(0.596078, 0.745098, 0.972549, 1)
+ground_curve = 1e-05
+
+[sub_resource type="Sky" id="Sky_deb4u"]
+sky_material = SubResource("ProceduralSkyMaterial_l30kv")
+
+[sub_resource type="Environment" id="Environment_xyr0p"]
+background_mode = 2
+sky = SubResource("Sky_deb4u")
+ambient_light_source = 1
+reflected_light_source = 2
+fog_mode = 1
+fog_light_color = Color(0.322199, 0.565756, 0.819805, 1)
+fog_density = 1.0
 
 [node name="Root" type="Node3D"]
 
@@ -62,7 +81,7 @@ mesh = SubResource("BoxMesh_ak4ec")
 transform = Transform3D(1, -2.2238e-05, -2.2126e-05, 2.2238e-05, 1, 0.000136057, 2.2126e-05, -0.000136057, 1, 0, 5, 0)
 physics_material_override = SubResource("PhysicsMaterial_p4bpo")
 script = ExtResource("1_rxlnc")
-metadata/GroundedVectors = PackedVector3Array(0, -0.35, 0, 0, -1, 0)
+metadata/GroundedVectors = PackedVector3Array(0, -0.35, 0, 0, -1.5, 0)
 
 [node name="ColliderFront" type="CollisionShape3D" parent="Car"]
 transform = Transform3D(-4.37117e-08, -1, 9.09495e-12, 1, -4.37122e-08, 0, 0, -9.09495e-12, 1, 0, -0.35, -1.4)
@@ -78,3 +97,6 @@ shape = SubResource("BoxShape3D_5yrs1")
 
 [node name="Mesh" parent="Car" instance=ExtResource("4_ujmja")]
 transform = Transform3D(-2, 0, -1.74846e-07, 0, 2, 0, 1.74846e-07, 0, -2, 0, -0.25, -0.1)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_xyr0p")
