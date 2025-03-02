@@ -4,18 +4,14 @@ extends RigidBody3D
 # Input.is_action_just_pressed("ui_accept")
 # move_toward(a, b, lerp)
 
-const TURN_SPEED : float = 0.13
-const MAX_SPEED : float = 10.0
-const FORWARD_TRACTION : float = 6
-const LATERAL_TRACTION : float = 8
+# https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_exports.html
+@export var TURN_SPEED : float = 0.13
+@export var MAX_SPEED : float = 10.0
+@export var FORWARD_TRACTION : float = 6
+@export var LATERAL_TRACTION : float = 8
 
-var grounded_vector_start
-var grounded_vector_end
-
-func _ready() -> void:
-	var grounded_vectors : PackedVector3Array = get_meta("GroundedVectors")
-	grounded_vector_start = grounded_vectors[0]
-	grounded_vector_end = grounded_vectors[1]
+@export var grounded_vector_start : Vector3
+@export var grounded_vector_end : Vector3
 
 func _physics_process(delta: float) -> void:
 	

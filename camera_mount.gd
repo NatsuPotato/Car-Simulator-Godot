@@ -2,10 +2,7 @@ extends Node3D
 
 const FOLLOW_SPEED = 4
 
-var target
-
-func _ready() -> void:
-	target = get_node(get_meta("target"))
+@export var target : Node3D
 
 func _process(delta: float) -> void:
 	
