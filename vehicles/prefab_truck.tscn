@@ -17,8 +17,6 @@ size = Vector3(1.49829, 2.09613, 3.78711)
 transform = Transform3D(1, -2.2238e-05, -2.2126e-05, 2.2238e-05, 1, 0.000136057, 2.2126e-05, -0.000136057, 1, 0, 0, 0)
 physics_material_override = SubResource("PhysicsMaterial_p4bpo")
 script = ExtResource("1_is75y")
-grounded_vector_start = Vector3(0, -0.35, 0)
-grounded_vector_end = Vector3(0, -1, 0)
 
 [node name="ColliderFront" type="CollisionShape3D" parent="."]
 transform = Transform3D(-4.37117e-08, -1, 9.09495e-12, 1, -4.37122e-08, 0, 0, -9.09495e-12, 1, 0, -0.35, -1.4)
@@ -33,4 +31,4 @@ transform = Transform3D(1, 4.41869e-13, 9.82254e-10, 1.93179e-14, 1, 0, 0, 0, 1,
 shape = SubResource("BoxShape3D_5yrs1")
 
 [node name="Mesh" parent="." instance=ExtResource("2_4gtdi")]
-transform = Transform3D(-2, 0, -1.74846e-07, 0, 2, 0, 1.74846e-07, 0, -2, 0, -0.25, -0.1)
+transform = Transform3D(-2, 8.83738e-13, -1.74849e-07, 1.63825e-12, 2, 0, 1.74845e-07, 0, -2, -6.95209e-05, -0.850001, -0.0955995)

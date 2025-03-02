@@ -16,7 +16,13 @@ extends RigidBody3D
 # I kinda wanna overhaul everything to be wheel based
 # both front and back wheels apply a lateral drag force, countering spin and drift
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
+	
+	if (Input.is_action_just_pressed("respawn")):
+		position = Vector3(0, 1, 0)
+		transform.basis = Quaternion.IDENTITY
+		linear_velocity = Vector3(0, 0, 0)
+		angular_velocity = Vector3(0, 0, 0)
 	
 	var basis_rotation := transform.basis.get_rotation_quaternion()
 	
